@@ -1,16 +1,5 @@
 class Solution {
-    public void reverse(int topo[]){
-
-        int i = 0;
-        int j = topo.length-1;
-        while(i < j){
-            int temp = topo[i];
-            topo[i] = topo[j];
-            topo[j] = temp;
-            i++;
-            j--;
-        }
-    }
+    
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         
         int V = numCourses;
@@ -27,7 +16,12 @@ class Solution {
             int u = edge[0];
             int v = edge[1];
 
-            adj.get(u).add(v);
+            // here we are adding reverse because the question is saying that for the pair : [0, 1], it indicates that
+// to take course 0, you have to take the course 1.
+
+// Means basically, we can reverse the edges while adding in adj list and then we can apply the 
+// same logic of Topo sort for this list, and it will work absolutely fine.
+            adj.get(v).add(u); // adding this instead of this : adj.get(u).add(v);
         }
 
         for(int i = 0; i < V; i++){
@@ -69,7 +63,6 @@ class Solution {
 
         // if idx has become equal to total Nodes, that means we were able to find the Topo sort, so return it.
         if(idx == V){
-            reverse(topo);
             return topo;
         }
        
