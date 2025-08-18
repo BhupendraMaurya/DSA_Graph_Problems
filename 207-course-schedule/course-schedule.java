@@ -38,8 +38,12 @@ class Solution {
         for(int edge[] : prerequisites ){
             int u = edge[0];
             int v = edge[1];
+// here we are adding reverse because the question is saying that for the pair : [0, 1], it indicates that
+// to take course 0, you have to take the course 1.
 
-            adj.get(u).add(v);
+// Means basically, we can reverse the edges while adding in adj list and then we can apply the 
+// same logic of Topo sort for this list, and it will work absolutely fine.
+            adj.get(v).add(u);
         }
 
         // using the DFS, we can simply check that if there is a cycle in this graph, if yes,
