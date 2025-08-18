@@ -1,4 +1,16 @@
 class Solution {
+    public void reverse(int topo[]){
+
+        int i = 0;
+        int j = topo.length-1;
+        while(i < j){
+            int temp = topo[i];
+            topo[i] = topo[j];
+            topo[j] = temp;
+            i++;
+            j--;
+        }
+    }
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         
         int V = numCourses;
@@ -33,16 +45,15 @@ class Solution {
             }
         }
 
-
-        ArrayList<Integer> ans = new ArrayList<>();
-
+        int topo[] = new int[V];
+        int idx = 0;
 
         while(!q.isEmpty()){
             int curr = q.peek();
             q.remove();
-            // adding the current element in the answer list as it is one of our topo sort sequence.
-            ans.add(curr);
-
+            // adding the current element in the topo sort as it is one of our topo sort sequence.
+           
+            topo[idx++] = curr;
 
             for(int nbr : adj.get(curr)){
 
@@ -54,23 +65,16 @@ class Solution {
             }
         }
 
-        int length = ans.size();
+        
 
-        int arr[] = new int[length];
-
-        // if we are not able to do the complete topo sort logic, then just return the empty array as answer.
-        if(length != V){
-            return new int[0];
+        // if idx has become equal to total Nodes, that means we were able to find the Topo sort, so return it.
+        if(idx == V){
+            reverse(topo);
+            return topo;
         }
-        // storing the answer stored in the array arr from arraylist(ans).
-
-        // question is asking the correct course order, that which should be completed first, that is why,
-        // storing the answer in reverse manner ( reverse of topo sort).
-        int j = 0;
-        for(int i = length-1; i >= 0; i--){
-            arr[j++] = ans.get(i);
-        }
-
+       
+        // if not able to find the topo sort, then just return empty array.
+        int arr[] = {};
         return arr;
     }
 }
