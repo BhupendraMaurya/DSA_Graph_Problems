@@ -1,6 +1,31 @@
 class Solution {
 
-    // bacically checking for : Check for cycle in directed cyclic graph.
+    // Intuition:  bacically checking for : Check for cycle in directed cyclic graph. if having cycle, then
+    // topo sort not possible, so return false, else true.: using DFS.
+
+
+    // checking that where given graph is having the cycle or not.
+    private boolean dfs(int node, boolean vis[], boolean pathVis[], ArrayList<ArrayList<Integer>> adj){
+
+        vis[node] = true;
+        pathVis[node] = true;
+
+        for(int nbr : adj.get(node)){
+            if(!vis[nbr]){
+                if(dfs(nbr, vis, pathVis, adj) == true){
+                    return true;
+                }
+            }
+
+            else if(pathVis[nbr] == true){
+                return true;
+            }
+        }
+
+        /// while backtracking mark the path as unvisited, because, you are going back from the current path
+        pathVis[node] = false;
+        return false;
+    }
     public boolean canFinish(int numCourses, int[][] prerequisites) {
         
         ArrayList<ArrayList<Integer>> adj = new ArrayList<>();
@@ -17,50 +42,27 @@ class Solution {
             adj.get(u).add(v);
         }
 
-        int inDegree[] = new int[V];
+        // using the DFS, we can simply check that if there is a cycle in this graph, if yes,
+        // then we can not finish all the courses, and if there is no cycle, then return 
+        // as we can complete the course, so true.
 
-// calculating the inDegree of given graph.
+        boolean vis[] = new boolean[V];
+        boolean pathVis[] = new boolean[V];
+
         for(int i = 0; i < V; i++){
-            for(int j = 0; j < adj.get(i).size(); j++){
-                inDegree[adj.get(i).get(j)]++;
-            }
-        }
-        int count = 0;
+            if(!vis[i]){
 
-        Queue<Integer> q = new LinkedList<>();
-
-// is any node is having the indegree as zero, then adding thm in the queue.
-        for(int i = 0; i < V; i++){
-            if(inDegree[i] == 0){
-                q.add(i);
-            }
-        }
-
-        // using BFS
-        while(!q.isEmpty()){
-            
-            int curr = q.peek();
-            q.remove();
-
-            count++;// increasing the count as we are counting the total numbers in topo sort.
-
-            for(int nbr : adj.get(curr)){
-                inDegree[nbr]--;
-
-                if(inDegree[nbr] == 0){
-                    q.add(nbr);
+                // if at any moment we found that graph has the cycle, that means topo sort is not possible
+                // so return false in final answer.
+                if(dfs(i, vis, pathVis, adj) == true){
+                    return false;
                 }
             }
-
-
         }
 
-        // if total Topo sort elements are equal to total Nodes, that means we can finish all the courses
-        // otherwise return false.
-        if(count == V){
-            return true;
-        }
+        // if there is not any cycle in the given graph, then return true.
+        return true;
 
-        return false;
+        
     }
 }
