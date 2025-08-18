@@ -74,7 +74,7 @@ class Solution {
         }
        
         // if not able to find the topo sort, then just return empty array.
-        int arr[] = {};
-        return arr;
+        
+        return new int [0];
     }
 }
