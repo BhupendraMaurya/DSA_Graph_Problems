@@ -14,30 +14,33 @@ class Solution {
         vis[node] = true;
         pathVis[node] = true;
 
-        check[node] = false; // means we are not sure that whethere we are in the cycle or not, that is why we are marking it as false
-        // means currently this node is not safe node.
+        check[node] = false; // till all the dfs call of current node is not completed, till then we can not
+        // say that either the current node is safe node or not.
 
         for(int nbr : adj.get(node)){
-
             if(!vis[nbr]){
                 if(dfs(nbr, adj, vis, pathVis, check) == true){
+                    // If dfs is returning true, that means is this node is part of cycle, so it can't be the safe nodes.
+                    check[nbr] = false;
                     return true;
                 }
             }
 
             else if(pathVis[nbr] == true){
+                // if we got the cycle, that means current node is not safe node,
+                check[nbr] = false;
                 return true;
             }
         }
 
-        // if all the dfs for current node has been completed, and we did not get any cycle, then we can say that yes
-        // it is our safe node, so make the check for current node as true.
+        // If all the dfs call of current node has been completed, that means we have got a node, who is somehow reaching to the
+        // terminal, so marking it as safe node.
         check[node] = true;
+
+        // make the path as unvisited when going back from after completing any dfs call.
         pathVis[node] = false;
 
         return false;
-
-
     }
     public List<Integer> eventualSafeNodes(int[][] graph) {
        
