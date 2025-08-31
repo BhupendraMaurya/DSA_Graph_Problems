@@ -16,6 +16,8 @@ class Solution {
     // node, if able to reach all the nodes, then just return the max time stored in the distance array
     // and if not able to reach at all the nodes, then just return -1.
 
+    // So, means return max from distance array of dijkstra and if anyone if infinite then give -1
+
     public int networkDelayTime(int[][] times, int n, int k) {
         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
         for(int i = 0; i <= n; i++){
