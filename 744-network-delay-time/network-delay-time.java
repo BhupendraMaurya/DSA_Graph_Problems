@@ -1,6 +1,6 @@
 class Solution {
 
-    static class Pair implements Comparable<Pair>{
+    static class Pair{
         int node;
         int time;
 
@@ -9,15 +9,13 @@ class Solution {
             this.time = time;
         }
 
-        public int compareTo(Pair p){
-            return this.time - p.time;
-        }
+        
     }
 
     // In this code, simply find the shortest path(shortest time) to reach from the given node(k) to all other
     // node, if able to reach all the nodes, then just return the max time stored in the distance array
     // and if not able to reach at all the nodes, then just return -1.
-    
+
     public int networkDelayTime(int[][] times, int n, int k) {
         ArrayList<ArrayList<Pair>> adj = new ArrayList<>();
         for(int i = 0; i <= n; i++){
@@ -37,7 +35,7 @@ class Solution {
         }
         dist[k] = 0;
 
-        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        Queue<Pair> pq = new LinkedList<>();
         // node, time;
         pq.add(new Pair(k, 0));
 
