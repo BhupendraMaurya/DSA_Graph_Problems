@@ -18,6 +18,8 @@ class Pair{
         this.node = node;
         this.price = price;
     }
+
+    
 }
 class Solution {
     public int findCheapestPrice(int n, int[][] flights, int src, int dst, int k) {
@@ -52,6 +54,9 @@ class Solution {
             int node = curr.node;
             int price = curr.price;
 
+            if(stop > k){
+                continue;
+            }
             for(Edge nbr : adj.get(node)){
                 int currNode = nbr.node;
                 int wt = nbr.price;
