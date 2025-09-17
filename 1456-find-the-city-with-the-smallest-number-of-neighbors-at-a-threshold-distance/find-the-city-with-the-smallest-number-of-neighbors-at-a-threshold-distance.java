@@ -7,61 +7,57 @@
 class Solution {
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 
-        int dist[][] = new int[n][n];
-
-// Initialising the array.
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j < n; j++){
-                if(i == j){
-                    dist[i][j] = 0;
-                }
-                else{
-                    dist[i][j] = (int)1e8;
+        // Step 1: Initialize the distance matrix
+        int[][] dist = new int[n][n];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                if (i == j) {
+                    dist[i][j] = 0;  // distance to itself = 0
+                } else {
+                    dist[i][j] = (int) 1e8;  // infinity for now
                 }
             }
         }
 
-// Filling the distance array with given distance .
-        for(int edge[] : edges){
-            int i = edge[0];
-            int j = edge[1];
-            int dis = edge[2];
+        // Step 2: Fill direct edge distances from the input
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            int weight = edge[2];
 
-            // edge from i to j ( i -> j)
-            dist[i][j] = dis;
-
-            // edge from j to i (j -> i)
-            dist[j][i] = dis;
+            // Since graph is undirected
+            dist[u][v] = weight;
+            dist[v][u] = weight;
         }
 
-        // Finding the distance from all the nodes to all other nodes. : Applying the Floyad warshal.
-        for(int via = 0; via < n; via++){
-            for(int i =0 ; i < n; i++){
-                for(int j =0; j < n; j++){
+        // Step 3: Apply Floyd–Warshall to compute all-pairs shortest paths
+        for (int via = 0; via < n; via++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < n; j++) {
                     dist[i][j] = Math.min(dist[i][j], dist[i][via] + dist[via][j]);
                 }
             }
         }
 
-        int city = -1;
-        int miniNbrs = n;
-// Finding the city having the less nbrs.
-        for(int i = 0; i < n; i++){
-            int count = 0;
-            for(int j =0 ; j < n; j++){
-                if(dist[i][j] <= distanceThreshold){
-                    count++;
+        // Step 4: Find the city with the smallest number of reachable neighbors
+        int resultCity = -1;
+        int minNeighbors = n;  // maximum possible
+
+        for (int i = 0; i < n; i++) {
+            int reachableCount = 0;
+            for (int j = 0; j < n; j++) {
+                if (dist[i][j] <= distanceThreshold) {
+                    reachableCount++;
                 }
             }
 
-            if(count <=  miniNbrs){
-                city = i;
-                miniNbrs = count;
+            // Pick the city with fewer neighbors, and prefer the larger index on ties
+            if (reachableCount <= minNeighbors) {
+                minNeighbors = reachableCount;
+                resultCity = i;
             }
         }
 
-        return city;
+        return resultCity;
     }
-
-    
 }
