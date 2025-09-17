@@ -1,4 +1,9 @@
-
+// Steps:
+/*
+1. Created the 2D matrix(dist)
+2. Calculated the distance from each node to other nodes.
+3. Find the city having minimum nbrs.
+*/ 
 class Solution {
     public int findTheCity(int n, int[][] edges, int distanceThreshold) {
 
