@@ -26,7 +26,7 @@ class Solution {
         if(list.size() == 0){
             return null;
         }
-        ListNode newHead = new ListNode(list.get(0));
+        ListNode newHead = new ListNode(-1);
         ListNode temp = newHead;
 
         int i = 0;
