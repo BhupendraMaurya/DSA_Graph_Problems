@@ -12,8 +12,9 @@ class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         ArrayList<Integer> list = new ArrayList<>();
 
-        for(ListNode head : lists){
-            ListNode temp = head;
+        for(int k = 0; k < lists.length; k++){
+
+            ListNode temp = lists[k];
             while(temp != null){
                 list.add(temp.val);
                 temp = temp.next;
