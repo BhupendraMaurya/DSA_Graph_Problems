@@ -9,35 +9,43 @@
  * }
  */
 class Solution {
-    public ListNode mergeKLists(ListNode[] lists) {
-        ArrayList<Integer> list = new ArrayList<>();
+    public ListNode mergeTwoSortedList(ListNode list1, ListNode list2){
+        ListNode dummyNode = new ListNode(-1, null);
+        ListNode temp = dummyNode;
 
-        for(int k = 0; k < lists.length; k++){
-
-            ListNode temp = lists[k];
-            while(temp != null){
-                list.add(temp.val);
-                temp = temp.next;
+        while(list1 != null && list2 != null){
+            if(list1.val <= list2.val){
+                temp.next = list1;
+                list1 = list1.next;
             }
+            else{
+                temp.next = list2;
+                list2 = list2.next;
+            }
+            temp = temp.next;
         }
 
-        Collections.sort(list);
-        System.out.println(list);
+        if(list1 != null){
+            temp.next = list1;
+        }
+        else{
+            temp.next = list2;
+        }
+        return dummyNode.next;
+    }
+    public ListNode mergeKLists(ListNode[] lists) {
+        // Using the "Merge 2 sorted list in place" approach:
 
-        if(list.size() == 0){
+        if(lists.length == 0){
             return null;
         }
-        ListNode newHead = new ListNode(-1);
-        ListNode temp = newHead;
+        
+        ListNode head = lists[0];
 
-        int i = 0;
-        while(i < list.size()){
-            ListNode newNode = new ListNode(list.get(i));
-            temp.next = newNode;
-            temp = temp.next;
-            i++;
+        for(int i = 1; i < lists.length; i++){
+            head = mergeTwoSortedList(head, lists[i]);
         }
 
-        return newHead.next;
+        return head;
     }
 }
