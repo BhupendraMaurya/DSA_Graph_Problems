@@ -9,43 +9,29 @@
  * }
  */
 class Solution {
-    public ListNode mergeTwoSortedList(ListNode list1, ListNode list2){
+    
+    public ListNode mergeKLists(ListNode[] lists) {
+        var pq = new PriorityQueue<ListNode>(
+            (a, b) -> a.val - b.val);
+
+
+        for(int i = 0; i < lists.length; i++){
+            if(lists[i] != null){
+                pq.add(lists[i]);
+            }
+        }
+
         ListNode dummyNode = new ListNode(-1, null);
-        ListNode temp = dummyNode;
+        ListNode curr = dummyNode;
 
-        while(list1 != null && list2 != null){
-            if(list1.val <= list2.val){
-                temp.next = list1;
-                list1 = list1.next;
-            }
-            else{
-                temp.next = list2;
-                list2 = list2.next;
-            }
-            temp = temp.next;
-        }
+        while(!pq.isEmpty()){
+            curr.next = pq.poll();
+            curr = curr.next;
 
-        if(list1 != null){
-            temp.next = list1;
-        }
-        else{
-            temp.next = list2;
+            if(curr.next != null){
+                pq.add(curr.next);
+            }
         }
         return dummyNode.next;
-    }
-    public ListNode mergeKLists(ListNode[] lists) {
-        // Using the "Merge 2 sorted list in place" approach:
-
-        if(lists.length == 0){
-            return null;
-        }
-        
-        ListNode head = lists[0];
-
-        for(int i = 1; i < lists.length; i++){
-            head = mergeTwoSortedList(head, lists[i]);
-        }
-
-        return head;
     }
 }
