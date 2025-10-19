@@ -1,46 +1,32 @@
 class Solution {
 
      
-    public boolean isAdjacent(int hand[], int i, int n, int groupSize){
-
-        int nextNum = hand[i] + 1;
-        hand[i] = -1;
-        int count = 1;
-        i++;
-
-        while(i < n && count < groupSize){
-            if(nextNum == hand[i]){
-                count++;
-                nextNum = hand[i] + 1;
-                hand[i] = -1;
-            }
-            i++;
-        }
-
-        if(count < groupSize){
-            return false;
-        }
-
-        return true;
-    }
+    
     // Main function to check if the hand can be rearranged into groups
     public boolean isNStraightHand(int[] hand, int groupSize) {
         int n = hand.length;
 
-        if(n % groupSize != 0){
-            return false;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
+        for(int val : hand){
+            minHeap.add(val);
         }
 
-        Arrays.sort(hand);
-
-        for(int i = 0; i < n; i++){
-            if(hand[i] >= 0){
-                if(!isAdjacent(hand, i, n, groupSize)){
+        while(minHeap.size() != 0){
+            int start = minHeap.poll();
+            for(int j = 1; j < groupSize; j++){
+                // It checks that whether (start + j) exists in the minHeap or not.
+                // If yes, then it just removes it and continue for next iteration.
+                // If does not exist then just return false.
+                if(minHeap.remove(start+j)){
+                    continue;
+                }
+                else{
                     return false;
                 }
             }
         }
 
         return true;
+        
     }
 }
