@@ -4,24 +4,27 @@ class Solution {
     
     // Main function to check if the hand can be rearranged into groups
     public boolean isNStraightHand(int[] hand, int groupSize) {
-        int n = hand.length;
+        TreeMap<Integer, Integer> map = new TreeMap<>();
 
-        PriorityQueue<Integer> minHeap = new PriorityQueue<>();
-        for(int val : hand){
-            minHeap.add(val);
+        for(int i = 0; i < hand.length; i++){
+            map.put(hand[i], map.getOrDefault(hand[i],0)+1);
         }
 
-        while(minHeap.size() != 0){
-            int start = minHeap.poll();
-            for(int j = 1; j < groupSize; j++){
-                // It checks that whether (start + j) exists in the minHeap or not.
-                // If yes, then it just removes it and continue for next iteration.
-                // If does not exist then just return false.
-                if(minHeap.remove(start+j)){
-                    continue;
+        while(!map.isEmpty()){
+            int start = map.firstKey();
+            for(int i = 0; i < groupSize; i++){
+                int curr = start + i;
+
+                if(!map.containsKey(curr)){
+                    return false;
+                }
+
+                int freq = map.get(curr);
+                if(freq == 1){
+                    map.remove(curr);
                 }
                 else{
-                    return false;
+                    map.put(curr, freq-1);
                 }
             }
         }
