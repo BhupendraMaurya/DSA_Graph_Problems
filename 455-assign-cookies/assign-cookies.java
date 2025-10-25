@@ -5,16 +5,17 @@ class Solution {
         Arrays.sort(g);
         Arrays.sort(s);
 
-        for(int i = 0; i < s.length; i++){
-            for(int j = 0; j < g.length; j++){
-                if(s[i] < g[j]){
-                    break;
-                }
-                else if(s[i] >= g[j] && g[j] != -1){
-                    ans++;
-                    g[j] = -1;
-                    break;
-                }
+        int i = 0;
+        int j = 0;
+
+        while(i < g.length & j < s.length){
+            if(s[j] >= g[i]){
+                ans++;
+                j++;
+                i++;
+            }
+            else{
+                j++;
             }
         }
         return ans;
