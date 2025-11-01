@@ -13,6 +13,8 @@ class Solution {
         for(int i = 1; i < n; i++){
             // if current start time is less than or equal to last end time, then just update the end time.
             if(intervals[i][0] <= endTime){
+                // I'm using the max function, because there might be the case, when the next interval completely lies
+                // within the previous interval like this: [[1,4],[2,3]]
                 endTime = Math.max(endTime, intervals[i][1]);
             }
             // IF current start time is greatr than last end time, then add the last pair in the list
