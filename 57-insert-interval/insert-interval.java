@@ -1,36 +1,35 @@
 class Solution {
     public int[][] insert(int[][] intervals, int[] newInterval) {
-        ArrayList<int[]> list = new ArrayList<>();
+        
         ArrayList<int[]> ans = new ArrayList<>();
-        for(int i = 0; i < intervals.length; i++){
-            list.add(new int[]{intervals[i][0], intervals[i][1]});
+        
+
+        int n = intervals.length;
+        int i = 0;
+// for left part where it is not overlapping
+        while(i < n && intervals[i][1] < newInterval[0]){
+            ans.add(intervals[i]);
+            i++;
         }
 
-        list.add(new int[]{newInterval[0], newInterval[1]});
+        // Middle part, where it is overlapping, sowe have to find the min and max among the
+        // overlapping intervals.
 
-        Collections.sort(list, (a, b) -> Integer.compare(a[0], b[0]));
-
-        int interval[] = list.get(0);
-        int endTime = interval[1];
-        int startTime = interval[0];
-
-        for(int i = 1; i < list.size(); i++){
-            int currInterval[]  = list.get(i);
-            if(currInterval[0] <= endTime){
-                endTime = Math.max(endTime, currInterval[1]);
-            }
-            else{
-                ans.add(new int[]{startTime, endTime});
-                startTime = currInterval[0];
-                endTime = currInterval[1]; 
-            }
+        while(i < n && intervals[i][0] <= newInterval[1]){
+            newInterval[0] = Math.min(newInterval[0], intervals[i][0]);
+            newInterval[1] = Math.max(newInterval[1], intervals[i][1]);
+            i++;
+        }
+        ans.add(newInterval);
+        while(i < n){
+            ans.add(intervals[i]);
+            i++;
         }
 
-        ans.add(new int[]{startTime, endTime});
         int arr[][] = new int[ans.size()][2];
 
-        for(int i = 0; i < arr.length; i++){
-            arr[i] = ans.get(i);
+        for(int j = 0; j < arr.length; j++){
+            arr[j] = ans.get(j);
         }
         return arr;
 
