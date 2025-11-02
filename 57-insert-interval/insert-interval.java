@@ -6,6 +6,8 @@ class Solution {
 
         int n = intervals.length;
         int i = 0;
+        // “Go left (no overlap), merge middle (overlap), then go right (no overlap).
+        
 // for left part where it is not overlapping
         while(i < n && intervals[i][1] < newInterval[0]){
             ans.add(intervals[i]);
