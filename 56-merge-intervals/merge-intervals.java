@@ -1,6 +1,6 @@
 class Solution {
     public int[][] merge(int[][] intervals) {
-        // Since intervals are in the random order, so first sort it according to end time.
+        // Since intervals are in the random order, so first sort it according to start time.
         
         Arrays.sort(intervals, (a, b) -> Integer.compare(a[0], b[0]));
 
