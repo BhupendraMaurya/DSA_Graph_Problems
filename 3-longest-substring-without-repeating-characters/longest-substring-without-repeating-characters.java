@@ -8,9 +8,7 @@ class Solution {
         int n = s.length();
         while(i < n){
             map.put(s.charAt(i), map.getOrDefault(s.charAt(i),0)+1);
-
-            if(map.size() == i-j+1){
-                
+            if(map.size() == i-j+1){ 
                 ans = Math.max(i-j+1, ans);
             }
             else{
@@ -19,15 +17,11 @@ class Solution {
                     if(map.get(s.charAt(j)) == 0){
                         map.remove(s.charAt(j));
                     }
-                    if(map.size() == i-j+1){
-                        ans = Math.max(i-j+1, ans);
-                    }
                     j++;  
                 }
             }
             i++;
         }
-
         return ans;
     }
 }
