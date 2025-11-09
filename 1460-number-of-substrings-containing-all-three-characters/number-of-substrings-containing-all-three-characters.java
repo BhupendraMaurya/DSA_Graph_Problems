@@ -22,6 +22,9 @@ class Solution {
         return ans;
     }
     public int numberOfSubstrings(String s) {
+        // Taking the reference of the problem: Find the count of subarray having sum as k.
+        // So First finding the count of substring having distinct characters <= 3 - count of subtring
+        // having distinct characters <= 2. 
         // HEre taking 'K' as 3, because it is given that we have 3 chars.
         int k = 3;
         return atMost(s, k) - atMost(s, k-1);
