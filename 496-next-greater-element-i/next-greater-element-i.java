@@ -3,27 +3,25 @@ class Solution {
         int n = nums1.length;
         int m = nums2.length;
         int ans[] = new int[n];
-        Arrays.fill(ans, -1);
+        HashMap<Integer, Integer> map = new HashMap<>();
+        Stack<Integer> st = new Stack<>();
+        for(int i = m-1; i >= 0; i--){
+            int curr = nums2[i];
 
-        for(int i = 0; i < n; i++){
-            int j = 0;
-            while(j < m){
-                if(nums1[i] > nums2[j] || nums1[i] < nums2[j]){
-                    j++;
-                }
-                else{
-                    while(j < m){
-                        if(nums1[i] < nums2[j]){
-                            ans[i] = nums2[j];
-                            break;
-                        }
-                        j++;
-                    }
-                }
-                
+            while(!st.isEmpty() && st.peek() <= curr){
+                st.pop();
             }
+
+            int result = st.isEmpty() ? -1 : st.peek();
+            map.put(curr, result);
+            st.push(curr);
         }
 
+        for(int i = 0;i < n; i++){
+            int val = map.get(nums1[i]);
+            ans[i] = val;
+        }
+        
         return ans;
     }
 }
