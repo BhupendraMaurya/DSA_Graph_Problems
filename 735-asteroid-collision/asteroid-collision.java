@@ -9,32 +9,19 @@ class Solution {
                 if(st.isEmpty() || st.peek() < 0){
                     st.push(arr[i]);
                 }
-
-                else if(st.peek() == Math.abs(arr[i])){
-                    st.pop();
-                }
                 else{
-                    boolean flag = false;
-                    while(!st.isEmpty() && st.peek() > 0){
-                        if(st.peek() < Math.abs(arr[i])){
-                            st.pop();
-                        }
-
-                        else if(st.peek() == Math.abs(arr[i])){
-                            st.pop();
-                            flag = true;
-                            break;
-                            
-                        }
-                        else{
-                            // if Abs value of current value is smaller than st.peek(), then just remove it.
-                            break;
-                        }
+                    
+                    while(!st.isEmpty() && st.peek() > 0 && st.peek() < Math.abs(arr[i])){
+                        st.pop();
                     }
 
-                    if(flag != true && (st.isEmpty() || st.peek() < 0 )){
+                    if(!st.isEmpty() && st.peek() == Math.abs(arr[i])){
+                        st.pop();
+                    }
+                    else if(st.isEmpty() || st.peek() < 0){
                         st.push(arr[i]);
                     }
+                       
                 }
             }
         }
