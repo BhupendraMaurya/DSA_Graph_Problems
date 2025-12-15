@@ -15,8 +15,12 @@ class Solution {
         if (total < 0) return -1;
         if (negIdx == -1) return 0;
 
-        // distance from negative idx
+        // initial distance from negative idx to prev and next(as they will start operation
+        // one element far from negative element.)
         int d = 1;
+        
+        // If, I have reached here, that means, we will get answer, by moving left and right
+        // so keep going left and right and then get the answer.
         while(arr[negIdx] < 0){
             // finding the prev and next element of current (negative) element,
             // basically, going to left and right at equal pace.
