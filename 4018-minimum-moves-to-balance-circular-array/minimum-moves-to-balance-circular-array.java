@@ -5,6 +5,7 @@ class Solution {
         int negIdx = -1;
         long total = 0;
 
+        // Calculate total balance and find the index with negative balance (only one possible)
         for (int i = 0; i < n; i++) {
             total += arr[i];
             if (arr[i] < 0) {
@@ -12,33 +13,35 @@ class Solution {
             }
         }
 
+        // If total balance is negative, it is impossible to make all balances non-negative
         if (total < 0) return -1;
+
+        // If there is no negative balance, no moves are needed
         if (negIdx == -1) return 0;
 
-        // initial distance from negative idx to prev and next(as they will start operation
-        // one element far from negative element.)
+        // Distance from the negative index; we expand outward step by step
         int d = 1;
-        
-        // If, I have reached here, that means, we will get answer, by moving left and right
-        // so keep going left and right and then get the answer.
-        while(arr[negIdx] < 0){
-            // finding the prev and next element of current (negative) element,
-            // basically, going to left and right at equal pace.
-            int prev = (negIdx - d%n + n)%n;
-            int next = (negIdx + d)%n;
 
-            // summation of prev and next element.
-            long sum = arr[prev] + arr[next];
+        // Keep fixing the negative balance until it becomes non-negative
+        while (arr[negIdx] < 0) {
 
-            // Finding that how much we have to transfer from current summation,
-            long transfer = Math.min((-1)*arr[negIdx], sum);
+            // Find left and right neighbors at distance d (circular array)
+            int prev = (negIdx - d % n + n) % n;
+            int next = (negIdx + d) % n;
 
-            // whatever you have transfered, simply add that in the total moves.
+            // Total balance available at this distance
+            long available = arr[prev] + arr[next];
+
+            // Transfer only what is needed or what is available (minimum of both)
+            long transfer = Math.min(-arr[negIdx], available);
+
+            // Each unit transferred from distance d costs d moves
             moves += transfer * d;
 
-            // updating the negative element by adding that element by which u increased your moves.
+            // Update the negative balance after transfer
             arr[negIdx] += transfer;
 
+            // Move to the next farther distance
             d++;
         }
 
