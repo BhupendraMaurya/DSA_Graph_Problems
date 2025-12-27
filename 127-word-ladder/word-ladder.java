@@ -1,50 +1,48 @@
 class Pair{
-    String s;
-    int totalWords;
+    String str;
+    int length;
 
-    Pair(String s, int totalWords){
-        this.s = s;
-        this.totalWords = totalWords;
+    public Pair(String str, int length){
+        this.str = str;
+        this.length = length;
     }
 }
 
 class Solution {
     public int ladderLength(String beginWord, String endWord, List<String> wordList) {
         
-       HashSet<String> set = new HashSet<>();
+        Queue<Pair> q = new LinkedList<>();
+        HashSet<String> set = new HashSet<>();
 
-       for(String str : wordList){
-        set.add(str);
-       }
+        for(String s : wordList){
+            set.add(s);
+        }
 
-       Queue<Pair> q = new LinkedList<>();
-       q.add(new Pair(beginWord, 1));
-
+        q.add(new Pair(beginWord, 1));
         set.remove(beginWord);
 
+        int ans = 0;
         while(!q.isEmpty()){
             Pair curr = q.remove();
-            String str = curr.s;
-            int size = curr.totalWords;
+            String s = curr.str;
+            int len = curr.length;
 
-            if(str.equals(endWord)){
-                return size;
+            if(s.equals(endWord)){
+                return len;
             }
 
-            for(int i = 0;  i < str.length(); i++){
+            for(int i = 0; i < s.length(); i++){
                 for(char ch = 'a'; ch <= 'z'; ch++){
-                    char arr[] = str.toCharArray();
+                    char arr[] = s.toCharArray();
 
                     arr[i] = ch;
-
-                    String newStr = new String(arr);
-                    if(set.contains(newStr)){
-                        q.add(new Pair(newStr, size+1));
-                        set.remove(newStr);      
+                    String newString = new String(arr);
+                    if(set.contains(newString)){
+                        q.add(new Pair(newString, len+1));
+                        set.remove(newString);
                     }
                 }
             }
-            
         }
 
         return 0;
