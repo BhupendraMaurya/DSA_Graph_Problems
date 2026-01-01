@@ -15,6 +15,6 @@ class Solution {
             }
         }
 
-        return high + 1 + k;
+        return high + 1 + k;// here we can also use low + k;
     }
 }
