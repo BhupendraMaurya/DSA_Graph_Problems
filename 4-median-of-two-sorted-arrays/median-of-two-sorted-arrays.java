@@ -35,10 +35,15 @@ class Solution {
         int n = nums.length;
         double ans = -1;
         if(n % 2 != 0){
+            // Median of sequence of numbers is: 
+            // If n is odd, then (n+1)/2 and it is array, so returning value at this index.
+
             return (double) nums[(n+1) / 2 - 1];
         }
 
         else{
+            // If n is even, then just take the n/2 and n/2+1 index's values and find the average of this
+            
             int a = nums[n/2 - 1];
             int b = nums[n/2];
             return (double) (a+b)/2;
