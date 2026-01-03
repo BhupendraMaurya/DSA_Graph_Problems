@@ -2,51 +2,52 @@ class Solution {
     public double findMedianSortedArrays(int[] nums1, int[] nums2) {
         int n1 = nums1.length;
         int n2 = nums2.length;
-        int nums[] = new int[n1+n2];
+        int n = n1 + n2;
 
-        int i = 0;// index for nums1
-        int j = 0;// pointer for nums2
-        int k = 0;// pointer for nums
-        while(i < nums1.length && j < nums2.length){
+        // I will try to solve this problem without using the extra spaces;
+        int ind1 = n / 2 - 1;
+        int ind2 = n/2;
+        int cnt = 0;
+        int ele1 = -1;
+        int ele2 = -1;
+
+        int i = 0;
+        int j = 0;
+        while(i < n1 && j < n2){
             if(nums1[i] < nums2[j]){
-                nums[k] = nums1[i];
+                if(cnt == ind1) ele1 = nums1[i];
+                if(cnt == ind2) ele2 = nums1[i];
                 i++;
-                k++;
+                cnt++;
             }
             else{
-                nums[k] = nums2[j];
-                k++;
+                if(cnt == ind1) ele1 = nums2[j];
+                if(cnt == ind2) ele2 = nums2[j];
                 j++;
+                cnt++;
             }
         }
 
-        while(i < nums1.length){
-            nums[k] = nums1[i];
+        while(i < n1){
+            if(cnt == ind1) ele1 = nums1[i];
+            if(cnt == ind2) ele2 = nums1[i];
             i++;
-            k++;
+            cnt++;
         }
 
-        while(j < nums2.length){
-            nums[k] = nums2[j];
-            k++;
+        while(j < n2){
+            if(cnt == ind1) ele1 = nums2[j];
+            if(cnt == ind2) ele2 = nums2[j];
             j++;
+            cnt++;
         }
 
-        int n = nums.length;
-        double ans = -1;
-        if(n % 2 != 0){
-            // Median of sequence of numbers is: 
-            // If n is odd, then (n+1)/2 and it is array, so returning value at this index.
-
-            return (double) nums[(n+1) / 2 - 1];
+        if(n % 2 == 1){
+            return (double) ele2;
         }
 
         else{
-            // If n is even, then just take the n/2 and n/2+1 index's values and find the average of this
-            
-            int a = nums[n/2 - 1];
-            int b = nums[n/2];
-            return (double) (a+b)/2;
+            return (double) (ele1 + ele2) / 2;
         }
     }
 }
