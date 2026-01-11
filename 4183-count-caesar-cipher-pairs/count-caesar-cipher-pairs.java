@@ -1,35 +1,34 @@
 class Solution {
     public long countPairs(String[] word) {
         long ans = 0;
-
-        // Map to store the generalized form of all the strings.
-        HashMap<String, Integer> map = new HashMap<>();
-
-        // Taking each string from the map and finding other form 
-        for(String s : word){
-
-
-            char ch[] = s.toCharArray();
-            // taking the first character as reference and then finding
-            int f = ch[0];
-
+        // map to store the normalized pattern for each string.
+        HashMap<String, Long> map = new HashMap<>();
+        
+        for(String str : word){
+            // Taking each string and converting it into its coresponding array
+            char pattern[] = str.toCharArray();
             
-            for(int i = 0; i < s.length(); i++){
-                ch[i] = (char)(((ch[i]) - f + 26) % 26);
+            // now taking the first character of given string for the reference to make the pattern
+            int ref = pattern[0];
+            // using this loop, I'm simply finding the normalized pattern
+            for(int i = 0; i < pattern.length; i++){
+                pattern[i] = (char)((pattern[i] - ref + 26) % 26);
             }
 
-            String newStr = new String(ch);
+            // Since, we have stored the normalized pattern in an array, so storing this in the string now.
+            String normalized = new String(pattern);
 
-            // finding the Freq of newStr and if not present, then return 0.
-            int cnt = map.getOrDefault(newStr, 0);
+            // now, checking that, is this pattern already available in the map or not, if yes, find its count.
+            long count = (long)map.getOrDefault(normalized, 0L);
 
-            // adding answer in our variable.
-            ans += cnt;
+            // If your normalied pattern already present in the map, that means, you have already got the 
+            // similar string, so count the total count it has appeared before.
+            ans += count;
 
-            // now storing the newStr with added count in the map.
-            map.put(newStr, cnt+1);
-
+            // in the last, add this normalized pattern again the map with updated count.
+            map.put(normalized, count+1);
         }
+
         return ans;
     }
 }
