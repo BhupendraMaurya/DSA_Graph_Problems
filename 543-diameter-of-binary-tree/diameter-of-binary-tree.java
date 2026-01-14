@@ -36,10 +36,9 @@ class Solution {
         int lh = height(root.left);
         int rh = height(root.right);
 
+        // here we are not doing this: lh + rh + 1: because we want the no of edges between this and if we add
+        // lh and rh, then total edges equal to diameter,
         int selfD = lh + rh;
-
-        // here above expression is giving us the total nodes in the diameter, but question is asking the 
-        // number of edges in the diameter, so returning total nodes -1.
 
         return Math.max(selfD, Math.max(leftD, rightD));
         
