@@ -14,34 +14,35 @@
  * }
  */
 class Solution {
+    static class Info{
+        int d;
+        int h;
 
-    public int height(TreeNode root){
-        if(root == null){
-            return 0;
+        public Info(int d, int h){
+            this.d = d;
+            this.h = h;
         }
-
-        int leftH = height(root.left);
-        int rightH = height(root.right);
-
-        return Math.max(leftH, rightH) + 1;
     }
+    public Info diameterOfBinaryTree2(TreeNode root){
+        if(root == null){
+            return new Info(0, 0);
+        }
+        Info leftInfo = diameterOfBinaryTree2(root.left);
+        Info rightInfo = diameterOfBinaryTree2(root.right);
+
+        int finalDia = Math.max(leftInfo.h + rightInfo.h, Math.max(leftInfo.d, rightInfo.d));
+        int finalHt = Math.max(leftInfo.h, rightInfo.h)+1;
+
+        return new Info(finalDia, finalHt);
+    }
+    
     public int diameterOfBinaryTree(TreeNode root) {
+        
         if(root == null){
             return 0;
         }
-        
-        int leftD = diameterOfBinaryTree(root.left);
-        int rightD = diameterOfBinaryTree(root.right);
 
-        int lh = height(root.left);
-        int rh = height(root.right);
-
-        // here we are not doing this: lh + rh + 1: because we want the no of edges between this and if we add
-        // lh and rh, then total edges equal to diameter,
-        int selfD = lh + rh;
-
-        return Math.max(selfD, Math.max(leftD, rightD));
-        
+        return diameterOfBinaryTree2(root).d;
         
 
     }
