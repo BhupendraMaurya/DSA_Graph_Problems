@@ -3,12 +3,12 @@ class Solution {
         int low = 0;
         int high = hi;
 
-        int ans = -1;
+        int idx = -1;
 
         while(low <= high){
             int mid = low + (high - low)/2;
             if(a[mid][0] <= val){
-                ans = mid;
+                idx = mid;
                 low = mid + 1;
             }
             else{
@@ -16,7 +16,7 @@ class Solution {
             }
         }
 
-        return ans;
+        return idx;
     }
     public int maxCapacity(int[] costs, int[] capacity, int budget) {
         int n = costs.length;
