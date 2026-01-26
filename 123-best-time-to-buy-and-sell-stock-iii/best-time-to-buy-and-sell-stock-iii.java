@@ -1,7 +1,7 @@
 class Solution {
     public int price(int i, int buyOrsell, int prices[], int dp[][]){
         
-        if(i == prices.length || buyOrsell >= 5){
+        if(i == prices.length || buyOrsell >= 4){
             return 0;
         }
         if(dp[i][buyOrsell] != -1){
