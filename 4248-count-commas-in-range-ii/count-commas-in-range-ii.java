@@ -1,13 +1,21 @@
 class Solution {
     public long countCommas(long n) {
-        long ans = 0;
-        long val = 1000;
-        for(int i = 1; i <= 5; i++){
-            if(n >= val){
-                ans += (n - val + 1);
-            }
-            val *= 1000;
+        long count = 0;
+        if(n >= 1000L){
+            count += n - 1000L + 1;
         }
-        return ans;
+        if(n >= 1000000L){
+            count += n - 1000000L + 1;
+        }
+        if(n >= 1000000000L){
+            count += n - 1000000000L + 1;
+        }
+        if(n >= 1000000000000L){
+            count += n - 1000000000000L + 1;
+        }
+        if(n >= 1000000000000000L){
+            count += n - 1000000000000000L + 1;
+        }
+        return count;
     }
 }
