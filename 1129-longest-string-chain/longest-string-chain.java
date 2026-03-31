@@ -1,40 +1,44 @@
 class Solution {
     public boolean isPredecessor(String s1, String s2){
-        if(s1.length() != s2.length()+1){
+        if(s1.length() + 1 != s2.length()){
             return false;
         }
-        int n = s1.length();
-        int m = s2.length();
 
-        int i = 0, j = 0;
-        while(i < n){
-            if(j < m && s1.charAt(i) == s2.charAt(j)){
-                i++;
-                j++;
-            }
-            else{
+        int i = 0;
+        int j = 0;
+        while(i < s1.length() && j < s2.length()){
+            if(s1.charAt(i) == s2.charAt(j)){
                 i++;
             }
+            j++;
         }
-        return i == n && j == m; 
-
+        return i == s1.length();
     }
-    public int longestStrChain(String[] words) {
-        Arrays.sort(words, (s1, s2) -> Integer.compare(s1.length(), s2.length()));
-        int dp[] = new int[words.length];
-        Arrays.fill(dp, 1);
+    public int f(int i, int pIdx, String words[], int dp[][]){
+        if(i >= words.length){
+            return 0;
+        }
+        if(dp[i][pIdx+1] != -1){
+            return dp[i][pIdx+1];
+        }
 
-        int ans = 0;
-        for(int i = 0; i < words.length; i++){
-            for(int j = 0; j < i; j++){
-                if((isPredecessor(words[i], words[j])) && (1 + dp[j] > dp[i])){
-                    dp[i] = 1 + dp[j];
-                }
+        int notTake = f(i+1, pIdx, words, dp);
+        int take = Integer.MIN_VALUE;
+        if(pIdx == -1 || isPredecessor(words[pIdx], words[i])){
+            take = 1 + f(i+1, i, words, dp);
+        }
+        return dp[i][pIdx+1] = Math.max(take, notTake);
+    }
+    
+    public int longestStrChain(String[] words) {
+        Arrays.sort(words, (s1, s2) -> s1.length() - s2.length());
+        int n = words.length;
+        int dp[][] = new int[n][n+1];
+        for(int i = 0; i < n; i++){
+            for(int j = 0; j <= n; j++){
+                dp[i][j] = -1;
             }
         }
-        for(int i = 0; i < dp.length; i++){
-            ans = Math.max(ans, dp[i]);
-        }
-        return ans;
+        return f(0, -1, words, dp);
     }
 }
