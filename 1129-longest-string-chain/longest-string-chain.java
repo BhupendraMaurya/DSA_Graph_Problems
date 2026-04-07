@@ -33,12 +33,22 @@ class Solution {
     public int longestStrChain(String[] words) {
         Arrays.sort(words, (s1, s2) -> s1.length() - s2.length());
         int n = words.length;
-        int dp[][] = new int[n][n+1];
-        for(int i = 0; i < n; i++){
-            for(int j = 0; j <= n; j++){
-                dp[i][j] = -1;
+        int dp[][] = new int[n+1][n+1];
+        
+        for(int i = 0; i <= n; i++){
+            dp[n][i] = 0;
+        }
+
+        for(int i = n-1; i >= 0; i--){
+            for(int j = i-1; j >= -1; j--){
+                int notTake = dp[i+1][j+1];
+                int take = Integer.MIN_VALUE;
+                if(j == -1 || isPredecessor(words[j], words[i])){
+                    take = 1 + dp[i+1][i+1];
+                }
+                dp[i][j+1] = Math.max(take, notTake);
             }
         }
-        return f(0, -1, words, dp);
+        return dp[0][0];
     }
 }
