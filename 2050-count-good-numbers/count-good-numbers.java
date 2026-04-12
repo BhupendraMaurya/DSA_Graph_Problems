@@ -8,17 +8,15 @@ class Solution {
         return (int)ans;
     }
     public long power(long x, long n){
-        long ans = 1;
-        while(n > 0){
-            if(n%2 == 1){
-                ans = (ans * x) % mod;
-                n = n - 1;
-            }
-            else{
-                x = (x * x) % mod;
-                n = n / 2;
-            }
+        if(n == 0){
+            return 1;
         }
-        return ans % mod;
+
+        long half = power(x, n/2);
+        long result = (half * half) % mod;
+        if(n % 2 == 1){
+            result = result * x;
+        }
+        return result % mod;
     }
 }
