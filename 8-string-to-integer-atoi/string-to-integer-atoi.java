@@ -11,6 +11,9 @@ class Solution {
             if(s.charAt(i) == '-'){
                 sign = -1;
             }
+            else{
+                sign = 1;
+            }
             i++;
         }
 
