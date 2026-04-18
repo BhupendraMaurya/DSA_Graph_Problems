@@ -7,11 +7,9 @@ class Solution {
             return;
         }
         // taking current element.
-        if(i <= n && sum <= n){
-            store.add(i);
-            generate(i+1, k, n, list, store, size + 1, sum+i);
-            store.remove(store.size()-1);
-        }
+        store.add(i);
+        generate(i+1, k, n, list, store, size + 1, sum+i);
+        store.remove(store.size()-1);
         // not taking the current value. 
         generate(i+1, k, n, list, store, size, sum);
     }
