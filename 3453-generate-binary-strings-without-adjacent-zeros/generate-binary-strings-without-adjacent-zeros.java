@@ -1,4 +1,6 @@
 class Solution {
+
+    // Generate all the combinations of size n, and then check binary strings has adjacent zeroes and which not.
     public void generateCombination(int i, String str, HashSet<String> set, int n){
         if(i == n){
             set.add(str);
