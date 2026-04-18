@@ -5,12 +5,13 @@ class Solution {
             list.add(str);
             return;
         }
-        
+
         // taking the opening braces: '('
         generate(i+1, str + '(', n, list);
         // take the closing braces: ')'
         generate(i+1, str + ')', n, list);
     }
+    // Since we are using the recursion and backtracking, and we are generating the paranthesis, so no need to validate it. 
     public boolean isValid(String str){
         Stack<Character> st = new Stack<>();
         int n = str.length();
