@@ -1,17 +1,12 @@
 class Solution {
-    public void generateCombination(int i, StringBuilder sb, HashSet<String> set, int n){
+    public void generateCombination(int i, String str, HashSet<String> set, int n){
         if(i == n){
-            set.add(sb.toString());
+            set.add(str);
             return;
         }
-        sb.append(0);
-        generateCombination(i+1, sb, set, n);
-        int m = sb.length();
-        sb.deleteCharAt(m-1);
-        sb.append(1);
-        generateCombination(i+1, sb, set, n);
-        int len = sb.length();
-        sb.deleteCharAt(len-1);
+        generateCombination(i+1, str + '0', set, n);
+
+        generateCombination(i+1, str + '1', set, n);
 
     }
     public boolean hasAdjacentZeroes(String str){
@@ -32,8 +27,7 @@ class Solution {
     }
     public List<String> validStrings(int n) {
         HashSet<String> set = new HashSet<>();
-        StringBuilder sb = new StringBuilder();
-        generateCombination(0, sb, set, n);
+        generateCombination(0, "", set, n);
 
         List<String> list = new ArrayList<>();
         for(String str : set){
