@@ -8,7 +8,7 @@ class Solution {
         for(int i = 0; i < map[d].length(); i++){
             curr.append(map[d].charAt(i));
             generate(map, list, digits, curr, n+1);
-            curr.setLength(curr.length()-1);
+            curr.deleteCharAt(curr.length()-1);
         }
     }
     public List<String> letterCombinations(String digits) {
