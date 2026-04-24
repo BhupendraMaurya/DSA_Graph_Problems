@@ -12,12 +12,16 @@ class Solution {
         return true;
     }
     public void generate(int i, String s, List<List<String>> result, List<String> list){
+
         if(i >= s.length()){
             result.add(new ArrayList<>(list));
             return;
         }
         StringBuilder sb = new StringBuilder();
         for(int j = i; j < s.length(); j++){
+            // if current substring is palindrome, then only add in list, otherwise keep adding the char in the 
+            // stringbuilder. And if valid palindrome, then just take it and then recursively call the function 
+            // and while backtracking, remove the last taken substring. 
             sb.append(s.charAt(j));
             if(isPalindrome(sb.toString())){
                 list.add(sb.toString());
