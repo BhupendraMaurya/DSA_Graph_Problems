@@ -25,7 +25,7 @@ class Solution {
 
         for(int i = 0; i < n ; i++){
             for(int j = 0; j < m; j++){
-                if(search(i, j, 0, board, word, vis)){
+                if(word.charAt(0) == board[i][j] && search(i, j, 0, board, word, vis)){
                     return true;
                 }
             }
