@@ -21,9 +21,9 @@ class Solution {
     public boolean exist(char[][] board, String word) {
         int n = board.length;
         int m = board[0].length;
+        boolean vis[][] = new boolean[n][m];
 
         for(int i = 0; i < n ; i++){
-            boolean vis[][] = new boolean[n][m];
             for(int j = 0; j < m; j++){
                 if(search(i, j, 0, board, word, vis)){
                     return true;
