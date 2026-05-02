@@ -14,21 +14,26 @@ public class Solution {
         if(headA == null || headB == null){
             return null;
         }
-        HashSet<ListNode> set = new HashSet<>();
-        ListNode temp = headA;
-        while(temp != null){
-            set.add(temp);
-            temp = temp.next;
-        }
-
-        temp = headB;
-        while(temp != null){
-            if(set.contains(temp)){
-                return temp;
+        
+        ListNode temp1 = headA;
+        ListNode temp2 = headB;
+        while(temp1 != temp2){
+            temp1 = temp1.next;
+            temp2 = temp2.next;
+            
+            if(temp1 == temp2){
+                return temp1;
             }
-            temp = temp.next;
-        }
 
-        return null;
+            if(temp1 == null){
+                temp1 = headB;
+            }
+            if(temp2 == null){
+                temp2 = headA;
+            }
+
+        }
+        return temp1;
+        
     }
 }
