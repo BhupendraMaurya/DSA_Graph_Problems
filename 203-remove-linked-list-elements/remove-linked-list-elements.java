@@ -14,18 +14,27 @@ class Solution {
             return head;
         }
 
-        ListNode newHead = new ListNode(-1);
-        ListNode curr = newHead;
         ListNode temp = head;
-
+        ListNode prev = null;
+        while(temp != null && temp.val == val){
+            ListNode nextNode = temp.next;
+            temp.next = null;
+            temp = nextNode;
+        }
+        head = temp;
         while(temp != null){
             if(temp.val != val){
-                ListNode node = new ListNode(temp.val);
-                curr.next = node;
-                curr = curr.next;
+                prev = temp;
+                temp = temp.next;
             }
-            temp = temp.next;
+            else{
+                prev.next = temp.next;
+                ListNode nextNode = temp.next;
+                temp.next = null;
+                temp = nextNode;
+            }
         }
-        return newHead.next;
+        return head;
+        
     }
 }
