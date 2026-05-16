@@ -38,6 +38,15 @@ class Solution {
 
         return prev;
     }
+    /*
+    Approach: Try to solve the problem in k steps. Means first reverse k nodes, and then next k nodes and
+    in the last if remaining elements are less than k elements, then just leave them as it is. 
+
+    1. First finding the first kth node, and then change its next and prev node. 
+    2. Now reverse the grp (from start to kthNode).
+    3. and in the last, just change the nodes accordingly.
+    4. Please handle the edge cases.
+     */
     public ListNode reverseKGroup(ListNode head, int k) {
         ListNode temp = head;
         ListNode prevNode = null;
