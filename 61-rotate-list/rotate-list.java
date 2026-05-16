@@ -9,69 +9,40 @@
  * }
  */
 class Solution {
-    public ListNode reverse(ListNode head){
-        ListNode curr = head;
-        ListNode prev = null;
-        ListNode next = null;
-
-        while(curr != null){
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        return prev;
-    }
-    public ListNode findKthNode(ListNode node, int k){
-
-        int count =0;
-        ListNode temp = node;
-        while(temp != null){
-            count++;
-            if(count < k){
-                temp = temp.next;
-            }
-            else{
-                break;
-            }
-        }
-        return temp;
-    }
-    // Approach: Reverse whole list, then reverse the first k nodes and then reverse remaining nodes, and then
-    // append them and return new head. 
+    
     public ListNode rotateRight(ListNode head, int k) {
-        if(head == null || head.next == null){
+        if(head == null || head.next == null || k == 0){
             return head;
         }
         int size = 0;
-        ListNode temp = head;
-        while(temp != null){
+        ListNode tail = head;
+        while(tail.next != null){
             size++;
-            temp = temp.next;
+            tail = tail.next;
         }
+        // adding +1 more in the size as there is one more node in the end.
+        size++;
+        System.out.println(size);
+
         k = k % size;
         if(k == 0){
             return head;
         }
-        // first reverse whole linked list.
-        ListNode newHead = reverse(head);
-        //finding the kth node
-        ListNode kthNode = findKthNode(newHead, k);
-        ListNode prevNode = null;
-        // Storing the next node bcz we want to make the next of kthnode as null, 
-        // so that we can reverse the remaining nodes as well. 
-        ListNode nextNode = kthNode.next;
-        kthNode.next = null;
-        // reversing the first k nodes
-        ListNode newHead2 = reverse(newHead);
-        // storing the prev node so that we can point the next of this list as the next reversed list.
-        prevNode = newHead;
-        // reversing the remaining nodes.
-        ListNode nextHead = reverse(nextNode);
-        // appending the both list after reversing. 
-        prevNode.next = nextHead;
-        return newHead2;
+
+        // making the next of tail as head. Now our list has become the circular.
+        tail.next = head;
+
+        // Now simply go to the kth position and make the newHead as its next node and then make the next node
+        // of tail as null. To break the circular list.
+        ListNode newHead = null;
+        ListNode newTail = head; // starting from head and going till kth positon.
+        for(int i = 1; i < size-k; i++){
+            newTail = newTail.next;
+        }
+        newHead = newTail.next;
+        newTail.next = null;
+        return newHead;
+
 
     }
 }
