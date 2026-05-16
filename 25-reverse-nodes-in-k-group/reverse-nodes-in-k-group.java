@@ -9,68 +9,70 @@
  * }
  */
 class Solution {
-    public ListNode findKthNode(ListNode node, int k){
-        ListNode temp = node;
-        int cnt = 0;
-        while(temp != null && cnt < k){
-            cnt++;
 
-            if(cnt < k){
+    public ListNode findKthNode(ListNode node, int k){
+        int count = 0;
+        ListNode temp = node;
+
+        while(temp != null){
+            count++;
+            if(count < k){
                 temp = temp.next;
             }
             else{
                 break;
-            }   
+            }
         }
         return temp;
     }
+
     public ListNode reverse(ListNode head){
-        ListNode curr = head; 
-        ListNode prev = null;
-        ListNode next = null;
-
-        while(curr != null){
-            next = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = next;
-        }
-
-        return prev;
-    }
-    /*
-    Approach: Try to solve the problem in k steps. Means first reverse k nodes, and then next k nodes and
-    in the last if remaining elements are less than k elements, then just leave them as it is. 
-
-    1. First finding the first kth node, and then change its next and prev node. 
-    2. Now reverse the grp (from start to kthNode).
-    3. and in the last, just change the nodes accordingly.
-    4. Please handle the edge cases.
-     */
-    public ListNode reverseKGroup(ListNode head, int k) {
         ListNode temp = head;
-        ListNode prevNode = null;
+        ListNode prev = null;
         ListNode nextNode = null;
 
         while(temp != null){
+            nextNode = temp.next;
+            temp.next = prev;
+            prev = temp;
+            temp = nextNode;
+        }
+        return prev;
+    }
+    
+    public ListNode reverseKGroup(ListNode head, int k) {
+        // take the starting node.
+        ListNode temp = head;
+        ListNode nextNode = null;
+        ListNode prevNode = null;
+
+        while(temp != null){
+            // find the kth node from current temp node.
             ListNode kthNode = findKthNode(temp, k);
+
+            // if kth node is null, then no need to reverse the next nodes, because total nodes are < k, so
+            // so just make the next node as next of prev.
             if(kthNode == null){
                 prevNode.next = temp;
                 break;
             }
+            // make the next pointer of kth node.
             nextNode = kthNode.next;
+            // make the next of kth node as null, so that we can reverse the list from temp to kth node.
             kthNode.next = null;
             ListNode newHead = reverse(temp);
+            // if it is first grp reversal, then just update the head as newHEad.
             if(temp == head){
                 head = newHead;
             }
+            // if new head is already updated, then just update the newhead as next of prev node. 
             else{
-                prevNode.next = kthNode;
+                prevNode.next = newHead;
             }
+            //now make the prev node as temp and temp as nextnode for next reversal.
             prevNode = temp;
             temp = nextNode;
         }
-
-        return head;
+        return head; 
     }
 }
