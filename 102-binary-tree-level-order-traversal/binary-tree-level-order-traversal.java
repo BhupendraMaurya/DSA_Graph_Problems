@@ -18,31 +18,27 @@ class Solution {
         
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
-        
 
-        List<List<Integer>> list = new ArrayList<>();
+        List<List<Integer>> level = new ArrayList<>();
         if(root == null){
-            return list;
+            return level;
         }
         while(!q.isEmpty()){
-            List<Integer> level = new ArrayList<>();
             int size = q.size();
-            
-            
+            List<Integer> curr = new ArrayList<>();
             for(int i = 0; i < size; i++){
-                TreeNode curr = q.remove();
-                level.add(curr.val);
-
-                if(curr.left != null){
-                    q.add(curr.left);
+                TreeNode node = q.peek();
+                curr.add(node.val);
+                if(node.left != null){
+                    q.add(node.left);
                 }
-                if(curr.right != null){
-                    q.add(curr.right);
+                if(node.right != null){
+                    q.add(node.right);
                 }
+                q.poll();
             }
-            list.add(level);
-            
+            level.add(curr);
         }
-        return list;
+        return level;
     }
 }
