@@ -15,21 +15,23 @@
  */
 class Solution {
     
-    public void storeNodes(TreeNode root, Stack<Integer> st){
-        if(root == null){
-            return;
-        }
-        storeNodes(root.right, st);
-        storeNodes(root.left, st);
-        st.push(root.val);
-    }
+
     public List<Integer> preorderTraversal(TreeNode root) {
         List<Integer> preorder = new ArrayList<>();
-        Stack<Integer> st = new Stack<>();
-        storeNodes(root, st);
+        if(root == null){
+            return preorder;
+        }
+        Stack<TreeNode> st = new Stack<>();
+        st.push(root);
         while(!st.isEmpty()){
-            int top = st.pop();
-            preorder.add(top);
+            TreeNode top = st.pop();
+            preorder.add(top.val);
+            if(top.right != null){
+                st.push(top.right);
+            }
+            if(top.left != null){
+                st.push(top.left);
+            }
         }
         return preorder;
     }
