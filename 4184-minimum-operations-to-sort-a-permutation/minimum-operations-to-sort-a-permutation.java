@@ -1,71 +1,64 @@
 class Solution {
     
+    public boolean checkIfIncreasing(int nums[], int minIdx, int n){
+        int i = 0;
+        for(i = minIdx; i < n + minIdx; i++){
+            if(nums[(i+1)%n]-1 != nums[i%n]){
+                break;
+            }
+        }
+
+        if((i+1) % n == minIdx){
+            return true;
+        }
+        return false;
+    }
+
+    public void reverse(int nums[]){
+        int i = 0;
+        int j = nums.length-1;
+        while(i <= j){
+            int temp = nums[i];
+            nums[i] = nums[j];
+            nums[j] = temp;
+            i++;
+            j--;
+        }
+    }
     public int minOperations(int[] nums) {
+        // finding the minIDx, idx having value as zero will be the minIdx value.
+        int minIdx = -1;
+        for(int i = 0; i < nums.length; i++){
+            if(nums[i] == 0){
+                minIdx = i;
+                break;
+            }
+        }
         int n = nums.length;
-        if(n == 1){
-            return 0;
-        }
-        int gtl = 0;
-        int gtr = 0;
-        int first = nums[0];
-        int last = nums[nums.length-1];
+        
+        // checking if increasing or decreasing.
+        boolean isIncreasing = checkIfIncreasing(nums, minIdx, n);
+        boolean isDecreasing = false;
 
-        for(int i = 0; i < n-1; i++){
-            if(nums[i] > nums[i+1]){
-                gtl++;
-            }
+        if(!isIncreasing){
+            reverse(nums);
+            minIdx = n - minIdx - 1;
+            isDecreasing = checkIfIncreasing(nums, minIdx, n);
         }
 
-        for(int i = 1; i < n; i++){
-            if   (nums[i-1] < nums[i]){
-                gtr++;
-            }
-        }
-
-        if(first < last && gtl == 0){// means, array is sorted, 
-            return 0;
-        }
-
-        else if(first > last && gtr == 0){// means array is sorted but in reversed manner
-            return 1;
-        } 
-
-        else if(first > last && gtl > 1 || first < last && gtr > 1){
+        // if not increasing or decreasing, just return -1;
+        if(!isIncreasing && !isDecreasing){
             return -1;
         }
 
-        else if(first > last && gtl == 1){
-            int pos = -1;
-            System.out.println("first");
-            for(int i = 0; i < nums.length-1; i++){
-                if(nums[i] > nums[i+1]){
-                    pos = i;
-                    break;
-                }
-            }
-            return Math.min(pos+1, n-1-pos+1+1);
+        
+        int minOps = n;
+        if(isIncreasing){
+            minOps = Math.min(minIdx, 2 + n - minIdx);
         }
-        else if(first < last && gtr == 1){
-            System.out.println("second");
-            int pos = -1;
-            for(int i = n-1; i >= 0; i--){
-                if(nums[i-1] < nums[i]){
-                    pos = i;
-                    break;
-                }
-            }
-            for(int i = 0; i < n-1; i++){
-                if(nums[i] < nums[i+1]){
-                    pos = i;
-                    break;
-                }
-            }
-            return Math.min(pos+2, n-pos);
+        else{
+            minOps = Math.min(1+minIdx, 1 + n - minIdx);
         }
-
-        else {
-            return -1;
-        }
-
+        return minOps;
     }
 }
