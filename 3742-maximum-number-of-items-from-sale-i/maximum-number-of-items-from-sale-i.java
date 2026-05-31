@@ -29,7 +29,6 @@ class Solution {
             if(price <= budget){
                 pick = 1 + solve(i, 1, items, budget-price, ans, dp);
             }
-
         }
         return dp[i][budget][taken] = Math.max(pick, notpick);
     }
@@ -46,6 +45,7 @@ class Solution {
                 Arrays.fill(dp[i][j], -1);
             }
         }
+        // solve(idx=0, taken=0, items, budget, ans, dp)
         return solve(0, 0, items, budget, ans, dp);
     }
 }   
