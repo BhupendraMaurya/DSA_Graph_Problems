@@ -21,7 +21,6 @@ class Solution {
             return post;
         }
         Stack<TreeNode> s1 = new Stack<>();
-        Stack<TreeNode> s2 = new Stack<>();
 
         TreeNode node = root;
         // took two stack and then just push root into the stack 1 and then start taking the top element out,
@@ -29,10 +28,13 @@ class Solution {
         // left and then right, 
         // in the last, just keep  take all the elements from the stack and print it. 
 
+        // We can also solve this without using the second stack. as it is only used to store the nodes. 
+        // so store nodes in list and then reverse and return it. 
+
         s1.push(node);
         while(!s1.isEmpty()){
             TreeNode top = s1.pop();
-            s2.push(top);
+            post.add(top.val);
             if(top.left != null){
                 s1.push(top.left);
             }
@@ -42,9 +44,7 @@ class Solution {
             }
         }
 
-        while(!s2.isEmpty()){
-            post.add(s2.pop().val);
-        }
+        Collections.reverse(post);
         return post;
     }
 }
