@@ -24,6 +24,10 @@ class Solution {
         Stack<TreeNode> s2 = new Stack<>();
 
         TreeNode node = root;
+        // took two stack and then just push root into the stack 1 and then start taking the top element out,
+        // and also push it into the st2 and then check its left and right element, if not null, then first insert
+        // left and then right, 
+        // in the last, just keep  take all the elements from the stack and print it. 
 
         s1.push(node);
         while(!s1.isEmpty()){
