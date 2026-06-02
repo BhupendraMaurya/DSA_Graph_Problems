@@ -23,6 +23,12 @@ class Solution {
         Stack<TreeNode> st = new Stack<>();
 
         TreeNode curr = root;
+        // keep going to the left and push node in the stack while not null and then check for right node, if not
+        // null, then try to go to its left as well, and if no right node, then add this node in the post order
+        // traversal and then go back to its ancestors.
+
+        // Basically we have to traverse left, right then root,. so first go left, then right and then 
+        // go back by taking each root node. 
         while(curr != null || !st.isEmpty()){
             if(curr != null){
                 st.push(curr);
