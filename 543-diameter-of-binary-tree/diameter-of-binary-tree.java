@@ -13,29 +13,35 @@
  *     }
  * }
  */
-class Solution {
-    public int height(TreeNode root){
-        if(root == null){
-            return 0;
-        }
-        int leftH = height(root.left);
-        int rightH = height(root.right);
-        return Math.max(leftH, rightH) + 1;
+
+ class Info{
+    int d;
+    int h;
+
+    Info(int d, int h){
+        this.d = d;
+        this.h = h;
     }
-    
+ }
+class Solution {
+
+    public Info solve(TreeNode root){
+        if(root == null){
+            return new Info(0, 0);
+        }
+
+        Info lInfo = solve(root.left);
+        Info rInfo = solve(root.right);
+
+        int finalD = Math.max(lInfo.h+rInfo.h, Math.max(lInfo.d, rInfo.d));
+        int finalH = Math.max(lInfo.h, rInfo.h)+1;
+        return new Info(finalD, finalH);
+    }
     public int diameterOfBinaryTree(TreeNode root) {
-        
-        
         if(root == null){
             return 0;
         }
-        int leftH = height(root.left);
-        int rightH = height(root.right);
-
-        int ld = diameterOfBinaryTree(root.left);
-        int rd = diameterOfBinaryTree(root.right);
-
-        return Math.max(leftH+rightH, Math.max(ld, rd));
+        return solve(root).d;
     }
 
     
