@@ -19,13 +19,10 @@ class Solution {
         if(p == null && q == null){
             return true;
         }
-        if(p == null || q == null){
+        if(p == null || q == null || p.val != q.val){
             return false;
         }
-        boolean lcheck = isSameTree(p.left, q.left);
-        boolean rcheck = isSameTree(p.right, q.right);
 
-        return lcheck && rcheck && p.val == q.val;
-        // return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
+        return isSameTree(p.left, q.left) && isSameTree(p.right, q.right);
     }
 }
