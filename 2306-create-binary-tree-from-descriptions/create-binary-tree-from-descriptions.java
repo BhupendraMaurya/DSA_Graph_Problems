@@ -14,58 +14,51 @@
  * }
  */
 class Solution {
-    public TreeNode createBinaryTree(int[][] descriptions) {
-        HashMap<Integer, TreeNode> map = new HashMap<>();
-        TreeNode root = new TreeNode(-1);
-        HashMap<TreeNode, Boolean> map2 = new HashMap<>();
-        
-        for(int arr[] : descriptions){
-            int val1 = arr[0];
-            int val2 = arr[1];
-            int leftOrRight = arr[2];
+    public TreeNode build(int nodeVal, Map<Integer, Integer> leftMap, Map<Integer, Integer> rightMap){
+        TreeNode root = new TreeNode(nodeVal);
 
-            TreeNode parent = new TreeNode(-1);
-            if(!map.containsKey(val1)){
-                TreeNode temp = new TreeNode(val1);
-                parent = temp;
-                map.put(val1, parent);
-            }
-            else{
-                parent = map.get(val1);
-            }
-            
-            TreeNode child = new TreeNode(-1);
-            if(!map.containsKey(val2)){
-                TreeNode temp2 = new TreeNode(val2);
-                child = temp2;
-                map.put(val2, child);
-            }
-            else{
-                child = map.get(val2);
-            }
-            if(!map2.containsKey(parent)){
-                map2.put(parent, true);
-                // System.out.println(parent.val);
-            }
-            if(leftOrRight == 1){
-                parent.left = child;
-                map2.put(child, false);
-            }
-            else{
-                parent.right = child;
-                map2.put(child, false);
-            }
+        if(leftMap.containsKey(nodeVal)){
+            root.left = build(leftMap.get(nodeVal), leftMap, rightMap);
         }
 
-        for(Map.Entry<TreeNode, Boolean> it : map2.entrySet()){
-            TreeNode value = it.getKey();
-            Boolean value2 = it.getValue();
-            System.out.println(value2);
-            if(map2.get(value)){
-                root = map.get(value.val);
-            }
+        if(rightMap.containsKey(nodeVal)){
+            root.right = build(rightMap.get(nodeVal), leftMap, rightMap);
         }
         return root;
+    }
+    public TreeNode createBinaryTree(int[][] descriptions) {
+        // parent -> Left child
+        Map<Integer, Integer> leftMap = new HashMap<>();
+        // parent -> Right child
+        Map<Integer, Integer> rightMap = new HashMap<>();
+        // storing all the nodes that appear as children in the set.
+        Set<Integer> children = new HashSet<>();
 
+        for(int a[] : descriptions){
+            int parent = a[0];
+            int child = a[1];
+            
+            children.add(child);
+
+            if(a[2] == 1){
+                leftMap.put(parent, child);
+            }
+            else{
+                rightMap.put(parent, child);
+            }
+        }
+
+        // traversing on the set and checking that which node is never a child that is our parent.
+        // any node which never becomes the child is our parent.
+        int rootNode = -1;
+        for(int a[] : descriptions){
+            if(!children.contains(a[0])){
+                rootNode = a[0];
+                break;
+            }
+        }
+
+        TreeNode root = build(rootNode, leftMap, rightMap);
+        return root;
     }
 }
