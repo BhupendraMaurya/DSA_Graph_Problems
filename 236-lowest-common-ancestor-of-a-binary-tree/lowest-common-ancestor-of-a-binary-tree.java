@@ -28,7 +28,8 @@ class Solution {
         else if(rightTree == null){
             return leftTree;
         }
-        else{
+        else{// we are returning the root here, because we know that under this root, there are both 
+        //  descendents present, as this root has both its child as not null.
             return root;
         }
     }
