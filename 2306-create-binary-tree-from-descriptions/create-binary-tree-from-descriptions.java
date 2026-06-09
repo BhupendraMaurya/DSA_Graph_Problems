@@ -14,51 +14,37 @@
  * }
  */
 class Solution {
-    public TreeNode build(int nodeVal, Map<Integer, Integer> leftMap, Map<Integer, Integer> rightMap){
-        TreeNode root = new TreeNode(nodeVal);
-
-        if(leftMap.containsKey(nodeVal)){
-            root.left = build(leftMap.get(nodeVal), leftMap, rightMap);
-        }
-
-        if(rightMap.containsKey(nodeVal)){
-            root.right = build(rightMap.get(nodeVal), leftMap, rightMap);
-        }
-        return root;
-    }
+    
     public TreeNode createBinaryTree(int[][] descriptions) {
-        // parent -> Left child
-        Map<Integer, Integer> leftMap = new HashMap<>();
-        // parent -> Right child
-        Map<Integer, Integer> rightMap = new HashMap<>();
-        // storing all the nodes that appear as children in the set.
+        Map<Integer, TreeNode> nodeMap = new HashMap<>();
         Set<Integer> children = new HashSet<>();
-
-        for(int a[] : descriptions){
-            int parent = a[0];
-            int child = a[1];
-            
-            children.add(child);
-
-            if(a[2] == 1){
-                leftMap.put(parent, child);
+        for(int description[] : descriptions){
+            // extracting parent value, child value, and whether it is a left or right child.
+            int parent = description[0];
+            int child = description[1];
+            boolean isLeft = description[2] == 1;
+            //create parent and child nodes if not already created.
+            if(!nodeMap.containsKey(parent)){
+                nodeMap.put(parent, new TreeNode(parent));
+            }
+            if(!nodeMap.containsKey(child)){
+                nodeMap.put(child, new TreeNode(child));
+            }
+            if(isLeft){
+                nodeMap.get(parent).left = nodeMap.get(child);
             }
             else{
-                rightMap.put(parent, child);
+                nodeMap.get(parent).right = nodeMap.get(child);
+            }
+            // mark child as a child in the set. 
+            children.add(child);
+        }
+        // find and return the root node.
+        for(TreeNode node : nodeMap.values()){
+            if(!children.contains(node.val)){
+                return node;
             }
         }
-
-        // traversing on the set and checking that which node is never a child that is our parent.
-        // any node which never becomes the child is our parent.
-        int rootNode = -1;
-        for(int a[] : descriptions){
-            if(!children.contains(a[0])){
-                rootNode = a[0];
-                break;
-            }
-        }
-
-        TreeNode root = build(rootNode, leftMap, rightMap);
-        return root;
+        return null;
     }
 }
