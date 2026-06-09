@@ -3,8 +3,6 @@ class Solution {
     
     public long maxTotalValue(int[] nums, int k) {
         Arrays.sort(nums);
-        long bigValue = nums[nums.length-1];
-        long smallValue = nums[0];
-        return (long)(k * (bigValue - smallValue));
+        return (long)(k * (long)(nums[nums.length-1] - nums[0]));
     }
 }
