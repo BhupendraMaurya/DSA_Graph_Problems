@@ -1,24 +1,4 @@
 class Solution {
-    public int findMaxFreq(int i, int j, int nums[], boolean findMin){
-        HashMap<Integer, Integer> map = new HashMap<>();
-        for(int k = i; k <= j; k++){
-            map.put(nums[k], map.getOrDefault(nums[k],0)+1);
-        }
-        if(findMin){
-            int mini = Integer.MAX_VALUE;
-            for(int freq : map.values()){
-                mini = Math.min(mini, freq);
-            }
-            return mini;
-        }
-        else{
-            int maxi = Integer.MIN_VALUE;
-            for(int freq : map.values()){
-                maxi = Math.max(freq, maxi);
-            }
-            return maxi;
-        }
-    }
     public boolean everyElementHasminOrMaxinCurrentSubarray(int i, int j, HashMap<Integer, Integer> map, int mini, int maxi, int nums[]){
         for(int freq : map.values()){
             // System.out.println("freq: "+freq+"MINI: "+mini+"MAXI: "+maxi);
