@@ -1,15 +1,4 @@
 class Solution {
-    public boolean everyElementHasminOrMaxinCurrentSubarray(int i, int j, HashMap<Integer, Integer> map, int mini, int maxi, int nums[]){
-        for(int freq : map.values()){
-            // System.out.println("freq: "+freq+"MINI: "+mini+"MAXI: "+maxi);
-            if(freq != mini && freq != maxi){
-                return false;
-            }
-        }
-        return true;
-    }
-    // Previous solutions were not working because of the TC: O(n^3).
-    // in the current solution TC: O(n^2 * Distinct element.).
     public int getLength(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < nums.length; i++){
@@ -21,26 +10,46 @@ class Solution {
         else if(map.size() == nums.length){
             return 1;
         }
+        int n = nums.length;
         int maxLen = 0;
-        for(int i = 0; i < nums.length; i++){
-            HashMap<Integer, Integer> map2 = new HashMap<>();
-            
-            for(int j = i; j < nums.length; j++){
-                int mini = Integer.MAX_VALUE;
-                int maxi = Integer.MIN_VALUE;
-                map2.put(nums[j], map2.getOrDefault(nums[j], 0)+1);
-                
-                for(int freq : map2.values()){
-                    mini = Math.min(mini, freq);
+
+        for (int i = 0; i < n; i++) {
+
+            HashMap<Integer, Integer> freqMap = new HashMap<>();
+            TreeMap<Integer, Integer> freqCount = new TreeMap<>();
+
+            for (int j = i; j < n; j++) {
+
+                int num = nums[j];
+
+                int oldFreq = freqMap.getOrDefault(num, 0);
+                int newFreq = oldFreq + 1;
+
+                freqMap.put(num, newFreq);
+
+                // Remove old frequency count
+                if (oldFreq > 0) {
+                    freqCount.put(oldFreq, freqCount.get(oldFreq) - 1);
+
+                    if (freqCount.get(oldFreq) == 0) {
+                        freqCount.remove(oldFreq);
+                    }
                 }
-                for(int freq : map2.values()){
-                    maxi = Math.max(freq, maxi);
-                }
-                if(everyElementHasminOrMaxinCurrentSubarray(i, j, map2, mini, maxi, nums) && (mini * 2 == maxi)){
-                    maxLen = Math.max(maxLen, j-i+1);
+
+                // Add new frequency count
+                freqCount.put(newFreq,freqCount.getOrDefault(newFreq, 0) + 1);
+
+                if (freqCount.size() == 2) {
+                    int mini = freqCount.firstKey();
+                    int maxi = freqCount.lastKey();
+
+                    if (mini * 2 == maxi) {
+                        maxLen = Math.max(maxLen, j - i + 1);
+                    }
                 }
             }
         }
+
         return maxLen;
     }
 }
