@@ -8,6 +8,8 @@ class Solution {
         }
         return true;
     }
+    // Previous solutions were not working because of the TC: O(n^3).
+    // in the current solution TC: O(n^2 * Distinct element.).
     public int getLength(int[] nums) {
         HashMap<Integer, Integer> map = new HashMap<>();
         for(int i = 0; i < nums.length; i++){
