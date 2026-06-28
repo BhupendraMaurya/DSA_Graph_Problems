@@ -1,9 +1,6 @@
 class Solution {
     public List<List<Integer>> filterOccupiedIntervals(int[][] intervals, int freeStart, int freeEnd) {
         List<List<Integer>> list = new ArrayList<>();
-        if(intervals.length == 0){
-            return list;
-        }
         Arrays.sort(intervals, (a,b) -> Integer.compare(a[0], b[0]));
         
         int st = intervals[0][0];
@@ -47,7 +44,6 @@ class Solution {
                 }
             }
         }
-        System.out.println(list);
         return result;
     }
 }
